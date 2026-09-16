@@ -1,93 +1,72 @@
-# 👥 HR Attrition Analytics & Prediction
+# Proyek Akhir: Menyelesaikan Permasalahan Perusahaan Edutech
 
-Proyek ini bertujuan untuk membangun model *Machine Learning* yang dapat memprediksi potensi keluarnya karyawan (*Employee Attrition*). Solusi ini dirancang untuk membantu Departemen HR dalam mengambil langkah preventif guna mempertahankan talenta terbaik perusahaan.
+## Business Understanding
+Perusahaan Edutech sangat bergantung pada sumber daya manusia (SDM) yang berkualitas tinggi, seperti pengajar, pengembang kurikulum, hingga talenta teknologi (Software Engineer/Data Scientist) untuk memberikan layanan pendidikan terbaik. Tingginya tingkat perputaran karyawan (*employee turnover/attrition*) dapat mengganggu kelancaran operasional perusahaan, menurunkan kualitas produk pembelajaran, serta memicu lonjakan biaya untuk proses rekrutmen dan *onboarding* karyawan baru. Mempertahankan talenta terbaik adalah kunci krusial untuk menjaga stabilitas dan pertumbuhan bisnis perusahaan Edutech di pasar yang kompetitif.
 
-## 📌 Latar Belakang Masalah
-Perputaran karyawan (*turnover*) yang tinggi memakan biaya besar bagi perusahaan, baik dari segi rekrutmen maupun pelatihan ulang. Departemen HR menghadapi tantangan untuk:
-1. Mengetahui siapa saja karyawan yang memiliki probabilitas tinggi untuk *resign* (Attrition = 1).
-2. Memiliki alat pendukung keputusan yang berbasis data untuk melakukan intervensi dini.
+## Permasalahan Bisnis
+Berikut adalah permasalahan bisnis yang diselesaikan melalui proyek ini:
+1. **Membengkaknya Biaya Operasional HR:** Kerugian waktu dan finansial yang signifikan akibat keluarnya karyawan secara tidak terduga.
+2. **Ketiadaan Sistem Peringatan Dini (*Early Warning System*):** Departemen HR kesulitan mendeteksi karyawan mana yang memiliki indikasi atau probabilitas tinggi untuk mengundurkan diri (*resign*) dalam waktu dekat.
+3. **Inefisiensi Program Retensi:** Program retensi karyawan (seperti bonus, kenaikan gaji, atau konseling) menjadi kurang efektif dan boros anggaran karena tidak disasarkan secara spesifik pada karyawan yang benar-benar berisiko keluar.
 
-## 🛠️ Metodologi & Eksperimen Model
-Dataset HR yang digunakan memiliki karakteristik **sangat tidak seimbang (imbalanced)**, di mana mayoritas karyawan bertahan (173 orang / Kelas 0) dan minoritas yang keluar (39 orang / Kelas 1). 
+## Cakupan Proyek
+Proyek ini mencakup beberapa tahapan utama:
+1. **Eksplorasi & Prapemrosesan Data (EDA):** Menganalisis karakteristik data HR dan mengidentifikasi masalah ketidakseimbangan kelas (*imbalanced data*).
+2. **Pemodelan Machine Learning:** Melatih dan mengevaluasi empat algoritma klasifikasi (Logistic Regression, Random Forest, XGBoost, dan SVM) untuk memprediksi target `Attrition`.
+3. **Evaluasi Berbasis Kelas Minoritas:** Membandingkan performa model menggunakan metrik *Precision*, *Recall*, dan *F1-Score*, bukan sekadar *Accuracy*, mengingat sifat data yang tidak seimbang.
+4. **Pengembangan Business Dashboard:** Membangun *dashboard* interaktif menggunakan Streamlit untuk memvisualisasikan temuan analitik dan perbandingan performa model bagi para pemangku kepentingan.
 
-Empat algoritma klasifikasi telah dievaluasi:
-* Logistic Regression
-* Random Forest
-* XGBoost
-* Support Vector Machine (SVM)
+## Persiapan
+**Sumber data:** 
+Dataset HR Analytics Perusahaan (format CSV) yang mencakup data demografi, riwayat pekerjaan, dan status *attrition* karyawan. Dataset pengujian terdiri dari 212 baris data uji, dengan rasio kelas yang sangat tidak seimbang (173 Retained vs 39 Attrition).
+
+**Setup environment:**
+Untuk menjalankan proyek ini secara lokal, pastikan Python sudah terinstal, lalu jalankan perintah berikut di terminal:
+
+```bash
+# Clone repositori ini
+git clone [https://github.com/rianarifiya/submission-penerapan-data-science.git](https://github.com/rianarifiya/submission-penerapan-data-science.git)
+cd submission-penerapan-data-science
+
+# Instalasi library yang dibutuhkan
+pip install -r requirements.txt
+```
+
+## Business Dashboard
+Business Dashboard dirancang khusus untuk audiens profesional (Departemen HR dan Manajemen Eksekutif) menggunakan Streamlit dengan pendekatan antarmuka yang bersih (clean) dan minimalis. Dashboard ini menyajikan:
+
+- Executive Summary: Menampilkan metrik utama seperti Total Data Uji, Attrition Rate, dan nilai performa model terbaik.
+
+- Visualisasi Distribusi Kelas: Donut chart interaktif yang menyoroti masalah imbalanced data antara karyawan yang bertahan dan keluar.
+
+- Komparasi Model Prediktif: Grouped bar chart dan tabel metrik yang membandingkan performa Logistic Regression, Random Forest, XGBoost, dan SVM berdampingan secara detail, difokuskan pada kemampuan pendeteksian kelas minoritas (Attrition).
+
+Link Dashboard:
+(Tambahkan link Streamlit Cloud di sini jika sudah berhasil di-deploy)
+
+Untuk menjalankan dashboard secara lokal:
+
+```Bash
+streamlit run dashboard_submission.py
+```
 
 ## Conclusion
-Proyek ini bertujuan untuk memahami faktor-faktor yang mempengaruhi tingkat attrition (keluar) karyawan dari perusahaan Jaya Jaya Maju dan membangun model prediktif untuk mengidentifikasi karyawan dengan risiko keluar tinggi. Berikut ini adalah temuan-temuan utama dan insight yang diperoleh:
+Berdasarkan eksperimen pemodelan Machine Learning yang telah dilakukan, dapat ditarik konklusi sebagai berikut:
 
-# 1. Faktor-faktor Penyebab Attrition
-Berdasarkan analisis data dan model prediktif, berikut adalah faktor utama yang mempengaruhi attrition:
-1. `OverTime`
-- Karyawan yang sering lembur (OverTime = Yes) memiliki risiko keluar yang jauh lebih tinggi dibandingkan dengan yang tidak lembur.
-- Fitur ini adalah prediktor terkuat dalam model prediktif.
-2. `MonthlyIncome`
-- Pendapatan yang lebih rendah meningkatkan risiko keluar karyawan.
-- Fitur ini mencerminkan pentingnya kepuasan finansial dalam retensi karyawan.
-3. `YearsAtCompany` dan `TotalWorkingYears`
-- Masa kerja pendek baik di perusahaan maupun secara total adalah indikator risiko tinggi.
-4. Fitur pendukung lain
-- Fitur seperti `DistanceFromHome` dan `Age` memiliki kontribusi kecil, tetapi tetap relevan dalam memahami pola attrition.
+1. Kondisi dataset sangat tidak seimbang (173 kelas Retained berbanding 39 kelas Attrition).
 
-# 2. Model Prediktif Terbaik
-Model terbaik yang digunakan dalam proyek ini adalah Random Forest dengan metrik performa sebagai berikut:
-- Accuracy: 84%
-- Precision: 85%
-- Recall: 99%
-- F1-Score: 91%
-  
-# 3. Feature Importance
-Dari analisis feature importance menggunakan model Random Forest, didaparkan bahwa:
-- `TotalWorkingYears` adalah fitur dengan kontribusi terbesar terhadap prediksi.
-- `YearsAtCompany` dan `Age` juga memiliki peran penting.
+2. Logistic Regression terpilih sebagai model prediktif terbaik di antara model lainnya karena memberikan keseimbangan paling optimal dengan F1-Score tertinggi (0.3265) untuk memprediksi kelas minoritas.
 
-## Jawaban terhadap Pertanyaan Bisnis
-1. Apa faktor utama yang memengaruhi attrition?
-- Faktor utama adalah OverTime, MonthlyIncome, dan YearsAtCompany.
-2. Bagaimana tingkat kepuasan karyawan memengaruhi attrition?
-- Fitur seperti JobSatisfaction tidak signifikan dalam model prediktif, tetapi tetap relevan secara deskriptif.
-3. Apa pola perilaku karyawan dengan risiko keluar tinggi?
-- Karyawan yang lembur berlebihan, memiliki pendapatan rendah, dan masa kerja pendek cenderung memiliki risiko tinggi.
-4. Apakah kita memiliki alat bantu untuk memantau attrition?
-- Model prediktif dan visualisasi hasil dapat digunakan untuk membangun dashboard interaktif untuk monitoring risiko.
+3. Model Logistic Regression memiliki tingkat Precision sebesar 80.0%. Artinya, jika model memprediksi seorang karyawan akan keluar, akurasi tebakan tersebut sangat tinggi (8 dari 10 prediksi adalah benar), sehingga tingkat false positive sangat minim.
 
-## Karakteristik Umum Karyawan yang Melakukan Attrition
-Berdasarkan analisis data, berikut adalah karakteristik umum karyawan yang melakukan attrition:
+4. Meskipun memiliki Precision yang sangat baik, kelemahan seluruh model saat ini berada pada tingkat Recall (20.5%) yang masih rendah. Hal ini menandakan model masih kesulitan mendeteksi seluruh populasi karyawan yang berpotensi resign akibat kurangnya representasi sampel data minoritas.
 
-1. Demografis:
-- Usia: Rata-rata usia karyawan yang keluar adalah 30-an tahun.
-- Jenis Kelamin: Mayoritas adalah pria (Male).
-- Status Pernikahan: Sebagian besar karyawan yang keluar adalah Single, diikuti oleh Married.
-2. Pekerjaan dan Departemen:
-- Peran Kerja: Posisi yang paling sering melakukan attrition adalah Laboratory Technician.
-- Departemen: Departemen Research & Development memiliki tingkat attrition tertinggi.
-3. Faktor Finansial dan Beban Kerja:
-- Pendapatan: Rata-rata pendapatan bulanan karyawan yang keluar adalah 4,872.
-- Lembur (OverTime): Sebagian besar karyawan yang keluar bekerja lembur secara signifikan.
-4. Kepuasan dan Keseimbangan:
-- Kepuasan Kerja: Rata-rata tingkat kepuasan kerja adalah 2.5 (Medium).
-- Keseimbangan Kerja-Hidup: Rata-rata berada di tingkat 2.67 (Moderate).
-5. Masa Kerja:
-- Masa Kerja di Perusahaan: Rata-rata masa kerja adalah 5 tahun, dengan beberapa karyawan memiliki masa kerja sangat panjang hingga 40 tahun.
+## Rekomendasi Action Items
+Berangkat dari konklusi di atas, berikut adalah rekomendasi tindakan yang dapat diambil perusahaan guna menyelesaikan permasalahan bisnis:
 
-# Rekomendasi Action Items untuk Perusahaan
-1. Kurangi Lembur Berlebihan:
-Berikan program kerja fleksibel untuk meningkatkan keseimbangan kerja-hidup.
-2. Kaji Skala Gaji:
-Sesuaikan gaji karyawan agar kompetitif di pasar dan berikan insentif tambahan.
-3. Perkuat Retensi Karyawan Baru:
-Implementasikan program onboarding dan mentoring untuk karyawan dengan masa kerja pendek.
-4. Mengidentifikasi karyawan dengan YearsAtCompany dan TotalWorkingYears yang pendek, lalu memberikan perhatian khusus terhadap pengembangan karier dan kepuasan mereka.
-5. Menciptakan lingkungan kerja yang lebih inklusif dan mendukung bagi karyawan dari berbagai kelompok usia.
-6. Gunakan Model Prediktif:
-Integrasikan model Random Forest untuk memonitor risiko secara real-time melalui dashboard HR.
+- Action Item 1: Terapkan Intervensi Retensi yang Tepat Sasaran
+Departemen HR harus segera menggunakan hasil prediksi Logistic Regression untuk melakukan intervensi (seperti sesi konseling 1-on-1 atau negosiasi insentif) kepada karyawan yang telah diidentifikasi berisiko tinggi. Dengan tingkat Precision 80%, alokasi waktu dan dana retensi ini akan menjadi sangat efisien dan meminimalisir salah sasaran.
 
-## 📊 Dashboard Interaktif
-Proyek ini dilengkapi dengan *Business Dashboard* berbasis Streamlit.
-Untuk menjalankan dashboard secara lokal:
-```bash
-pip install -r requirements.txt
-streamlit run dashboard.py
+- Action Item 2: Optimalisasi Model dengan Pendekatan Imbalanced Learning
+Tim Data/IT perlu melakukan iterasi model lanjutan dengan menerapkan teknik penyeimbangan data pada tahap prapemrosesan (misalnya menggunakan SMOTE untuk menciptakan data sintetis kelas minoritas) atau menambahkan class weight pada parameter model. Hal ini diwajibkan untuk menaikkan nilai Recall sehingga tidak ada lagi karyawan potensial keluar yang luput dari pendeteksian sistem (false negative
+
